@@ -26,8 +26,8 @@ $debug = FALSE
 
 
 class CalendarSearch
-  include Capybara::RSpecMatchers
   include Rspec::Matchers
+  include Capybara::RSpec::Matchers
 
   @@url = calendar_search_url
 
