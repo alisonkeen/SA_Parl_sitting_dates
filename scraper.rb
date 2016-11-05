@@ -43,7 +43,7 @@ class CalendarSearch
     @session.visit(@@url)
     warn 'waiting...'
     expect(@session).to(have_css('.k-weekend', wait:10))
-    puts 'all set!'
+    warn 'all set!'
     yield(@session)
   end
 
@@ -76,7 +76,7 @@ CalendarSearch.new.ready do |capybara|
   wanted_class_ids.push list_of_class_ids[1]
   wanted_class_ids.push list_of_class_ids[2]
   
-  puts wanted_class_ids
+  puts wanted_class_ids if $debug
   
   # truncate the array - we only want Upper and Lower house, not budget etc 
   # (for now at least). NB download URLs for other pages may be different?
@@ -114,7 +114,7 @@ CalendarSearch.new.ready do |capybara|
       date_string = day.to_s + "." + month.to_s + "." + year.to_s 
   
       sitting_date.trigger('click')
-      puts "clicked!"
+      puts "clicked!" if $debug
      
       # There will be one or two divs containing info about
       # a relevant XML file  
@@ -125,17 +125,17 @@ CalendarSearch.new.ready do |capybara|
   #      puts linkbox['outerHTML'].to_s
   
         transcript_type = linkbox.find('div.date-event-name').text
-        puts "Transcript Type: " + transcript_type
+        puts "Found: " + date_string + " - " + transcript_type 
   
         hansard_file_ID = linkbox.find('div.hansard-icon-xml')['data-value'].to_s
-        puts "Hansard File ID: " + hansard_file_ID
+        puts "Hansard File ID: " + hansard_file_ID if $debug
   
         # Once you have each hansard-icon-xml div you can use this line
         # to construct the download URL - but there's a hansard-icon-xml div
         # in each date-event-container, as well as the name of who or what is 
         # sitting. 
         file_download_URL = xml_download_url + hansard_file_ID
-        puts "URL: "+  file_download_URL
+        puts "URL: "+  file_download_URL if $debug
   
         #create data object and save sitting date to table
         data = {
@@ -153,7 +153,7 @@ CalendarSearch.new.ready do |capybara|
   
     end # end iterating over found sitting dates
 
-    puts date_counter.to_s + " sitting days found."
+    puts date_counter.to_s + " " + type_of_date + " sitting days found."
   end # end of iterating over sitting date types
  
 end # end of iterating over session from CalendarSearch.new.ready 
