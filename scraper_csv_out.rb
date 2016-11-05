@@ -18,7 +18,7 @@ require 'capybara'
 require 'capybara/poltergeist'
 
 calendar_search_url = "http://hansardpublic.parliament.sa.gov.au/#/search/1"
-xml_download_url = "http://hansardpublic.parliament.sa.gov.au/_layouts/15/Hansard/DownloadHansardFile.ashx?t=tocxml&d="
+xml_download_url = ""
 
 $debug = FALSE
 $csvout = TRUE
@@ -56,7 +56,7 @@ wanted_class_ids.push list_of_class_ids[2]
 puts wanted_class_ids unless $csvout
 
 
-puts '"Date","URL","House"' if $csvout
+puts '"Date","source_filename","House"' if $csvout
 
 # Example snippet of code for each sitting date:
 # <td role="gridcell"> 
@@ -118,7 +118,7 @@ wanted_class_ids.each do |type_of_date|
       # to construct the download URL - but there's a hansard-icon-xml div
       # in each date-event-container, as well as the name of who or what is 
       # sitting. 
-      file_download_URL = xml_download_url + hansard_file_ID + ".xml"
+      file_download_URL = xml_download_url + hansard_file_ID 
 #      puts "URL: "+  file_download_URL
 
       #create data object and save sitting date to table
