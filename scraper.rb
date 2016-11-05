@@ -19,17 +19,17 @@ require 'capybara'
 require 'capybara/poltergeist'
 require 'capybara/rspec/matchers'
 
-calendar_search_url = "http://hansardpublic.parliament.sa.gov.au/#/search/1"
+# calendar_search_url = "http://hansardpublic.parliament.sa.gov.au/#/search/1"
+
 xml_download_url = "http://hansardpublic.parliament.sa.gov.au/_layouts/15/Hansard/DownloadHansardFile.ashx?t=tocxml&d="
 
 $debug = FALSE
 
-
 class CalendarSearch
-  include Rspec::Matchers
-  include Capybara::RSpec::Matchers
 
-  @@url = calendar_search_url
+  @@url = "http://hansardpublic.parliament.sa.gov.au/#/search/1"
+  include RSpec::Matchers
+  include Capybara::RSpecMatchers
 
   def initialize
     @session = Capybara::Session.new(:poltergeist)
@@ -39,6 +39,7 @@ class CalendarSearch
   end
 
   def ready
+    # Read in the page
     @session.visit(@@url)
     warn 'waiting...'
     expect(@session).to(have_css('.k-weekend', wait:10))
@@ -48,12 +49,13 @@ class CalendarSearch
 
 end
 
+
+# When the page is read in an loaded... 
 CalendarSearch.new.ready do |capybara| 
 
-  # Read in the page
-  capybara.visit(calendar_search_url)
-
   # Read the Legend to find out the dates with data of interest... 
+  # Yes this should probably be moved to a method in CalendarSearch.
+
   legend_divs = capybara.all('div.hansard-legend')
   
   # declare an empty array to put class IDs into

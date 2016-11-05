@@ -1,6 +1,6 @@
-The beginnings of a scraper to read Hansard dates
+A scraper to read Hansard dates 
 
-Scraper is built using Poltergeist / Capybara due to heavy AJAX insertion of content that doesn't appear when scraped with Mechanize
+Scraper is built using Poltergeist / Capybara / Rspec due to heavy AJAX insertion of content that doesn't appear when scraped with Mechanize
 
 Notes to self: 
 When debugging/running scraper on own ubuntu system, prerequisites are 
