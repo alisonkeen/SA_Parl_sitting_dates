@@ -139,6 +139,7 @@ CalendarSearch.new.ready do |capybara|
   
         #create data object and save sitting date to table
         data = {
+          id: hansard_file_ID,
           date: date_string,
           xml_file_url: file_download_URL,
           type_of_transcript: transcript_type
@@ -146,7 +147,7 @@ CalendarSearch.new.ready do |capybara|
 
         puts data if $debug
   
-        ScraperWiki.save_sqlite([:date], data)
+        ScraperWiki.save_sqlite([:id], data)
         date_counter += 1
   
       end
