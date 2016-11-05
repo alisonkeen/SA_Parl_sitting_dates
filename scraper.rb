@@ -102,11 +102,16 @@ CalendarSearch.new.ready do |capybara|
   
     date_cells.each do |sitting_date| 
       date_string = sitting_date['data-value'].to_s
-  
-  #    puts sitting_date['outerHTML'].to_s if $debug
-  
-      # Just a hunch that writing data out to Sqlite deletes something?
-  #    sitting_type = type_of_date[1].to_s
+      
+      # For some asinine reason, the SharePoint backend tags
+      # each sitting date with dates where month starts at 0 not 1
+      d = date_string.match(/([0-9]+)\/([0-9]+)\/([0-9]+)/)
+
+      day = d[1].to_i
+      month = d[2].to_i + 1 
+      year = d[3].to_i
+
+      date_string = day.to_s + "." + month.to_s + "." + year.to_s 
   
       sitting_date.trigger('click')
       puts "clicked!"
